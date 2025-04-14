@@ -4,6 +4,7 @@ Este repositório será responsável por todos os exercícios desenvolvidos para
 
 --
 ## Informações do Curso:
-* Disciplina: Análise e Desenvolvimento de Sistemas
+* Curso: Análise e Desenvolvimento de Sistemas
+* Disciplina: Pensamento Computacional
 * Faculdade: Faculdade IENH
 * Professores: Eduardo Isaia e Guilherme Piaia
