@@ -1,4 +1,4 @@
-class livros:
+class Livro:
     def __init__(self, titulo, autor, ano_publicacao, numero_paginas, pagina_atual):
         self.titulo = titulo
         self.autor = autor
@@ -7,20 +7,18 @@ class livros:
         self.pagina_atual = pagina_atual
     
     def avancar_pagina(self):
-        if pagina_atual > numero_paginas:
+        if self.pagina_atual > self.numero_paginas:
             print("Número de Páginas ultrapassadas")
-            return
         else:
             pagina_atual += 1
-            print(f"Você está na página {pagina_atual} do livro {titulo}")
+            print(f"Você está na página {self.pagina_atual} do livro {self.titulo}")
         
-    def voltar_pagina():
+    def voltar_pagina(self):
         if pagina_atual < 1:
             print("Número de Páginas ultrapassadas")
-            return
         else:
             pagina_atual -= 1
-            print(f"Você está na página {pagina_atual} do livro {titulo}")
+            print(f"Você está na página {self.pagina_atual} do livro {self.titulo}")
 
     def exibir_informacoes(self):
         print(f"Livro: {self.titulo}, Autor: {self.autor}, Ano de Publicação: {self.ano_publicacao}, Número de Páginas: {self.numero_paginas}, Página Atual: {self.pagina_atual}")
