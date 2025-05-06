@@ -1,9 +1,9 @@
 from models.conta import ContaBancaria
-conta1 = ContaBancaria("Ryan", 700.0, 1000.0, [])
+conta1 = ContaBancaria("Ryan", 1300.0, 3000.0, [])
 conta2 = ContaBancaria("Murilo", 500.0, 2000.0, [])
 
 #TESTE DEPOSITO
-conta1.deposito(300.0)
+conta1.deposito(200.0)
 print(conta1.historico)
 
 #TESTE SAQUE

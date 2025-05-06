@@ -6,11 +6,14 @@ class Filme:
         self.avaliacao = avaliacao
     
     def avaliar(self, nota: float):
-        if nota >= 0:
+        if nota >= 0 and nota <= 10.0:
             self.avaliacao += nota
             print(f"A nota para o Filme: {self.titulo} recebeu nota {self.avaliacao}")
         else:
             print("Apenas Nota entre 0.0 e 10.0")
 
     def exibir_informações(self):
-        print(f"Titulo Filme: {self.titulo}, Genero: {self.genero}, Duração: {self.duracao} minutos, Avaliação: {self.avaliacao}")
+        if not self.avaliacao:
+            print("Nenhuma nota válida adicionada!!!")
+        else:
+            print(f"Titulo Filme: {self.titulo}, Genero: {self.genero}, Duração: {self.duracao} minutos, Avaliação: {self.avaliacao}")
