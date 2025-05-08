@@ -3,7 +3,9 @@ from models.conta import conta_banco
 banco = []
 
 while True:
-    resposta = input("Criar uma nova conta? [1] --- Exibir Saldo? [2] --- Sacar? [3] --- Depositar? [4] --- Realizar transferência? [5] --- ENCERRAR O PROGRAMA? [6]: ")
+    resposta = input("Criar conta? [1] --- Exibir Saldo? [2] --- Sacar? [3] --- Depositar? [4]" \
+                     "--- Realizar transferência? [5] --- Exibir Histórico de Transações? [6] --- Excluir conta? [7] --- Sair? [8]: ")
+    
     if resposta == '1':
         for i in range(1):
             nome = input("Digite o nome do Titular: ")
@@ -32,12 +34,27 @@ while True:
                 conta.depositar(deposito)
     
     elif resposta == '5':
-        titular = input("Digite o titular da conta que deseja realizar um deposito: ")
+        titular = input("Digite o titular da conta que deseja realizar uma transferencia: ")
+        conta_destino = input("Digite o titular que irá receber a transferencia: ")
         for conta in banco:
             if conta.titular == titular:
-                deposito = float(input("Digite o valor para deposito: "))
-                conta.depositar(deposito)
+                valor = float(input("Digite o valor para transferencia: "))
+                for conta2 in banco:
+                    if conta2.titular == conta_destino:
+                        conta.transferir(conta2, valor)
 
+    elif resposta == '6':
+        titular = input("Digite o titular da conta que deseja ver o histórico: ")
+        for conta in banco:
+            if conta.titular == titular:
+                conta.exibir_historico()
+    
+    elif resposta == '7':
+        titular = input("Digite o titular da conta que deseja excluir: ")
+        for conta in banco:
+            if conta.titular == titular:
+                banco.remove(conta)
+       
     else:
         print("PROGRAMA ENCERRADO!!!")
         break    
