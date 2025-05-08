@@ -1,3 +1,4 @@
+import datetime
 class ContaBancaria:
     def __init__(self, titular, saldo, limite, historico):
         self.titular = titular
@@ -26,8 +27,8 @@ class ContaBancaria:
             self.saldo -= valor
             conta_destino.saldo += valor
             self.historico.append(f"Transferencia de {valor:.2f} para {conta_destino.titular}")
-            conta_destino.historico.append(f"Transferencia de {valor:.2f} recebida de {self.titular}")
-            print(f"Transferencia de {valor:.2f} para {conta_destino.titular} realizada com sucesso.")
+            conta_destino.historico.append(f"Transferencia de {valor:.2f} recebida de {self.titular} em {datetime.datetime.now()}")
+            print(f"Transferencia de {valor:.2f} para {conta_destino.titular} realizada com sucesso em {datetime.datetime.now()}.")
         else:
             print("Saldo Insuficiente!!!")
 
