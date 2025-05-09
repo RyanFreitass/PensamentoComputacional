@@ -2,10 +2,15 @@ from models.conta import conta_banco
 
 banco = []
 
+print("--"*12)
+print("--- Conta Bancária ---")
+print("--"*12)
+
 while True:
-    resposta = input("Criar conta? [1] --- Exibir Saldo? [2] --- Sacar? [3] --- Depositar? [4]" \
-                     "--- Realizar transferência? [5] --- Exibir Histórico de Transações? [6] --- Excluir conta? [7] --- Sair? [8]: ")
-    
+    print("--"*12)
+    resposta = input("Criar conta? [1]\nExibir Saldo? [2]\nSacar? [3]\nDepositar? [4]\nRealizar transferência? [5]\nExibir Histórico de Transações? [6]\nExcluir conta? [7]\nSair? [8]: ")
+    print("--"*12)
+
     if resposta == '1':
         for i in range(1):
             nome = input("Digite o nome do Titular: ")
@@ -51,9 +56,29 @@ while True:
     
     elif resposta == '7':
         titular = input("Digite o titular da conta que deseja excluir: ")
-        for conta in banco:
-            if conta.titular == titular:
-                banco.remove(conta)
+        resposta2 = input("Deseja realizar uma transferencia para o saldo restante? [1] --- Deseja realizar um deposito para zerar a conta? [2] --- Apenas excluir a conta? [3]: ")
+        if resposta2 == '1':
+            destinatario = input("Digite o titular que irá receber o seu saldo restante: ")
+            for conta in banco:
+                if conta.titular == titular:
+                    valor = float(input("Digite o valor para transferencia: "))
+                    for conta2 in banco:
+                        if conta2.titular == destinatario:
+                            conta.transferir(conta2, valor)
+
+        elif resposta2 == '2':
+            for conta in banco:
+                if conta.titular == titular:
+                    valor = float(input("Digite o valor para deposito: "))
+                    conta.depositar(valor)
+        
+        elif resposta2 == '3':
+            for conta in banco:
+                if conta.titular == titular:
+                    banco.remove(conta)
+                    print(f"A conta de {titular} foi excluída com sucesso!")
+
+    
        
     else:
         print("PROGRAMA ENCERRADO!!!")
