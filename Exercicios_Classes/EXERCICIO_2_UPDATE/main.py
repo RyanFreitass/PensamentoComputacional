@@ -2,9 +2,9 @@ from models.conta import conta_banco
 
 banco = []
 
-print("--"*12)
-print("--- Conta Bancária ---")
-print("--"*12)
+print("##"*10)
+print("#--- Banco IENH ---#")
+print("##"*10)
 
 while True:
     print("--"*12)
@@ -81,6 +81,6 @@ while True:
     
        
     else:
-        print("PROGRAMA ENCERRADO!!!")
+        print("BANCO ENCERRADO!!!")
         break    
      
