@@ -2,8 +2,10 @@ from models.conta import conta_banco
 
 banco = []
 
+banco.append(conta_banco("Ryan", 1000, 500, [], []))
+
 print("##"*10)
-print("#--- Banco IENH ---#")
+print("--- Banco IENH ---")
 print("##"*10)
 
 while True:
@@ -16,7 +18,10 @@ while True:
             nome = input("Digite o nome do Titular: ")
             saldo = float(input("Digite o saldo da conta: "))
             limite = float(input("Digite o limite da conta: "))
-            banco.append(conta_banco(nome, saldo, limite, []))
+            chave_pix1 = input("Digite a chave pix I: ")
+            chave_pix2 = input("Digite a chave pix II: ")
+            chave_pix3 = input("Digite a chave pix III: ")
+            banco.append(conta_banco(nome, saldo, limite, [chave_pix1, chave_pix2, chave_pix3], []))
 
     elif resposta == '2':
         titular = input("Digite o titular da conta que deseja ver o saldo: ")

@@ -10,18 +10,25 @@ class conta_banco:
 
     '''
 
-    def __init__(self, titular, saldo, limite, historico):
+    def __init__(self, titular: str, saldo: float, limite: float, chave_pix: list, historico: list):
 
-        self.titular = titular
+        self.titular = titular # type: ignore
         self.saldo = saldo
         self.limite = limite
         self.historico = historico 
+        self.chave_pix = chave_pix
+        
+        
 
         '''
         Construtor da classe conta_banco
         '''
     
-    def depositar(self, valor, remetente = None):
+
+    def __str__(self):
+        return f"Titular: {self.titular}, Saldo: {self.saldo}, Limite: {self.limite}"
+
+    def depositar(self, valor: float, remetente: str = None) -> bool:
         '''
         Método que realiza o depósito na conta bancária
         Entradas: Valor (float) e remetente (str)
@@ -46,7 +53,7 @@ class conta_banco:
             print(f'O valor {valor} é inválido')
             return False
 
-    def sacar(self, valor, destinatario = None): 
+    def sacar(self, valor: float, destinatario: str = None) -> bool: 
         '''
         Método que realiza o saque da conta bancária
         Entradas: Valor (float) e destinatario (str)
@@ -81,7 +88,7 @@ class conta_banco:
                 print('Operação com limite cancelada!')
         return False
     
-    def transferir(self, destinatario, valor):
+    def transferir(self, destinatario: str, valor: float):
         '''
         Objetivo: metódo para transferir um valor entre duas contas 
         Entradas: valor (float) e objeto da classe conta_banco do destinatário
@@ -93,7 +100,7 @@ class conta_banco:
             # Deposita na conta do destinatário
             destinatario.depositar(valor, self.titular)
 
-    def exibir_historico(self):
+    def exibir_historico(self) -> None:
         print('Histórico de transações:')
         print('_'*150)
         for item in self.historico:
@@ -105,3 +112,13 @@ class conta_banco:
                 '\n . Valor:', item['valor'],
                 '\n . Data e Tempo:',
                 str(dt.tm_hour) + ':' + str(dt.tm_min) + ':' + str(dt.tm_sec) + ' / DIA:' + str(dt.tm_mday) + ' MÊS:' + str(dt.tm_mon) + ' ANO:' + str(dt.tm_year))
+
+    def pix(self) -> list:
+        return self.chave_pix
+    
+
+
+    '''for conta in banco:
+        for chave in conta.chave_pix:
+            if chave == chave_pix:
+                print'''
