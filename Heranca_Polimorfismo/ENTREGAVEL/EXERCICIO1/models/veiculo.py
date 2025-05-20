@@ -9,7 +9,7 @@ class Veiculos:
         self.valor_fipe = valor_fipe
 
     
-    def __str__(self):
+    def __str__(self) -> str:
         infor = f"Placa: {self.placa}\n"
         infor += f"Modelo: {self.modelo}\n"
         infor += f"Marca: {self.marca}\n"
