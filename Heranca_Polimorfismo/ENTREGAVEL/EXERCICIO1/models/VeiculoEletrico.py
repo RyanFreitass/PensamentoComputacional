@@ -5,10 +5,13 @@ from models.moto import Moto
 from models.frota import Frota
 
 class VeiculoEletrico(Veiculos):
+    def __init__(self, placa, modelo, fabricante, ano, cor, valor, consumokwh):
+        super().__init__(placa, modelo, fabricante, ano, cor, valor)
+        self.consumokwh = consumokwh
 
     def calcular_consumo(self, distancia):
-        return distancia / self.__consumo
+        return distancia * 0.15
     
     def recarregar(self):
-        print(f"{self.placa} está sendo carregada!!!")
+        print(f"{self.modelo} está sendo carregada!!!")
 
