@@ -17,4 +17,20 @@ class Veiculos:
         infor += f"Cor: {self.cor}\n"
         infor += f"Valor Fipe: {self.valor_fipe}\n"
         return infor
+    
+    def calcular_consumo(self, distancia):
+        return distancia / self.__consumo 
+
+    def getPlaca(self) -> str:
+        return self.__placa
+    
+    def setValorFipe(self, valor):
+        self.__valor_fipe = valor
+        return True
+    
+    def __eq__(self, other):
+        if isinstance(other, Veiculos):
+            return self.placa == other.getPlaca()
+        else:
+            return False
         
