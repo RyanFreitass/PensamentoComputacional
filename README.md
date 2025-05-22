@@ -2,7 +2,7 @@
 
 Este repositório será responsável por todos os exercícios desenvolvidos para a disciplina de Pensamento Computacional.
 
---
+--*10
 ## Informações do Curso:
 * Curso: Análise e Desenvolvimento de Sistemas
 * Disciplina: Pensamento Computacional
