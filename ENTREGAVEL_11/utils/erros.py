@@ -1,0 +1,2 @@
+class MoedaInvalidaError(Exception):
+    pass

@@ -74,7 +74,7 @@ for a in range(len(veiculos)):
         if veiculos[a] == veiculos[b]:
             print(f"{veiculos[a].modelo} (placa {veiculos[a].get_placa()}) é igual a {veiculos[b].modelo} (placa {veiculos[b].get_placa()})")
 
-#DISTANCIA [ERRO]
+#DISTANCIA NEGATIVA [ERRO]
 try:
     distancia = float(input("Digite a distancia: "))
     if distancia < 0:
