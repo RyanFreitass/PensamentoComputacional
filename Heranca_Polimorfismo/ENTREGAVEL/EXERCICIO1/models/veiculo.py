@@ -35,9 +35,9 @@ class Veiculos:
             elif nova_placa[:3].isalpha() and nova_placa[3].isdigit() and nova_placa[4].isalpha() and nova_placa[5:].isdigit():
                 self.__placa = nova_placa
             else:
-                print("Placa inválida. Formato incorreto.")
+                print("Placa inválida possivel formato incorreto.")
         else:
-            print("Placa inválida. Deve conter exatamente 7 caracteres.")
+            print("Placa inválida. Deve conter 7 caracteres.")
 
         
 
@@ -50,4 +50,9 @@ class Veiculos:
             return self.__placa == other.get_placa()
         else:
             return False
+        
+        
+            
+
+        
         
