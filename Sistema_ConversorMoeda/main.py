@@ -4,13 +4,13 @@ from models.eletronico import ProdutoEletronico
 from models.produto import Produto
 from utils.erros import *
 
-'''alimenticio = ProdutoAlimenticio("Arroz 1KG", 10, 'USD')
-eletronico = ProdutoEletronico("Mouse Razer", 219.00, 'EUR')'''
+alimenticio = ProdutoAlimenticio("Arroz 1KG", 10, 'USD')
+eletronico = ProdutoEletronico("Mouse Razer", 219.00, 'EUR')
 
-'''conversor = ConversorMoeda()
+conversor = ConversorMoeda()
 
 conversor.converte_preco_para_brl(alimenticio)
-print(alimenticio)'''
+print(alimenticio)
 
 
 try:
