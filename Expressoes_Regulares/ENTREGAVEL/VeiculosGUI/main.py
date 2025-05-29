@@ -1,6 +1,7 @@
 from models.carro import Carro
 from models.moto import Moto
 from models.caminhao import Caminhao
+from models.proprietario import Proprietario
 from utils.erros import *
 import tkinter as tk
 from tkinter import ttk, messagebox
@@ -180,7 +181,29 @@ class SistemaVeiculos:
         filtro_frame = tk.Frame(self.cadastro_proprietario)
         filtro_frame.pack(fill="x", padx=20, pady=5)
 
-        tk.Label(filtro_frame, text="Filtrar por tipo:")
+
+        tk.Label(filtro_frame, text="Nome:").grid(row=0, column=0, sticky="e", pady=5)
+        self.nome_entry = tk.Entry(filtro_frame, width=15)
+        self.nome_entry.grid(row=0, column=1, sticky="w", pady=5)
+        
+        tk.Label(filtro_frame, text="CPF:").grid(row=1, column=0, sticky="e", pady=5)
+        self.cpf_entry = tk.Entry(filtro_frame, width=20)
+        self.cpf_entry.grid(row=1, column=1, sticky="w", pady=5)
+        
+        tk.Label(filtro_frame, text="Placa:").grid(row=2, column=0, sticky="e", pady=5)
+        self.placa_proprietario_entry = tk.Entry(filtro_frame, width=20)
+        self.placa_proprietario_entry.grid(row=2, column=1, sticky="w", pady=5)
+
+        # BOTOES AÇÃO
+        botoes_frame_proprietario = tk.Frame(self.cadastro_proprietario)
+        botoes_frame_proprietario.pack(pady=20)
+        
+        tk.Button(botoes_frame_proprietario, text="Cancelar", width=10,
+                command=lambda: self.mostrar_tela(self.tela_principal)).pack(side="left", padx=10)
+        
+        tk.Button(botoes_frame_proprietario, text="Salvar", width=10,
+                command=self.salvar_proprietario).pack(side="left", padx=10)
+        
 
 
     def configurar_tela_listar_proprietario(self):
@@ -238,6 +261,37 @@ class SistemaVeiculos:
         
         tk.Button(botoes_frame, text="Voltar", width=12,
                 command=lambda: self.mostrar_tela(self.tela_principal)).pack(side="left", padx=5)
+        
+
+    def salvar_proprietario(self):
+        nome = self.nome_entry.get().strip()
+        cpf = self.cpf_entry.get().strip()
+        placa = self.placa_proprietario_entry.get().strip().upper()
+
+        #campos obrigatorios
+        if not nome or not cpf or not placa:
+            messagebox.showwarning("Dados incompletos", "Preencha todos os campos obrigatórios!")
+            return
+        
+        #Validar cpf
+        proprietario = Proprietario(nome, cpf, [placa])
+
+        if not proprietario.validar_cpf():
+            messagebox.showwarning("CPF Inválido")
+            return
+
+        #Validar placa e adicionar veiculo
+        placa_valida = proprietario.validar_placa(placa)
+
+        if placa_valida is True:
+            messagebox.showinfo("Sucesso", "Proprietário salvo com sucesso!")
+            print(proprietario.get_nome(), proprietario.get_cpf(), proprietario.get_placas())
+        elif placa_valida is False:
+            messagebox.showwarning("Placa repetida", "Este veículo já foi adicionado.")
+        else:
+            messagebox.showwarning("Placa inválida", "A placa deve seguir o padrão ABC1234 ou ABC1D23.")
+
+
     
     def salvar_veiculo(self):
         # Obter dados comuns
