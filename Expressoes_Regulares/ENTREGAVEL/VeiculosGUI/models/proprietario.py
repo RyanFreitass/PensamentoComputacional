@@ -20,18 +20,24 @@ class Proprietario:
         return self.__placas
 
     #Validar CPF and PLACA
-    def validar_cpf(self):
-        cpf = re.sub(r'\d', '', self.__cpf)
-
-        if len(cpf) != 11 or cpf == cpf[0] * 11:
+    def validar_cpf(self, cpf):
+        padrao_formatado = r'^\d{3}\.\d{3}\.\d{3}-\d{2}$'
+        if not re.match(padrao_formatado, cpf):
             return False
-        
-        padrao = r'^\d{3}\.\d{3}\.\d{3}-\d{2}$'
-        return re.match(padrao, cpf)
+        cpf = re.sub(r'[^0-9]', '', cpf)
+        if len(cpf) != 11:
+            return False
+        if cpf == cpf[0] * 11:
+            return False
+        return True
+            
 
     def validar_placa(self, placa):
-        padrao = r'[A-Z]{3}[0-9][A-Z][0-9]{2}$' 
-        return re.match(padrao, placa)
+        if re.match(r'^[A-Z]{3}[0-9][0-9A-Z][0-9]{2}$', placa):
+            return True
+        else:
+            return False
+
 
     def adicionar_veiculo(self, placa):
         placa = placa.upper()

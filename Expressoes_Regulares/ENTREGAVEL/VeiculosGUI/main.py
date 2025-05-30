@@ -18,6 +18,9 @@ class SistemaVeiculos:
         
         # Lista para armazenar os veículos cadastrados
         self.veiculos = []
+
+        '''#Lista para armazenar os proprietarios
+        self.proprietarios = []'''
         
         # Configura o container para as telas
         self.container = tk.Frame(root)
@@ -272,27 +275,34 @@ class SistemaVeiculos:
         if not nome or not cpf or not placa:
             messagebox.showwarning("Dados incompletos", "Preencha todos os campos obrigatórios!")
             return
-        
-        #Validar cpf
-        proprietario = Proprietario(nome, cpf, [placa])
 
-        if not proprietario.validar_cpf():
-            messagebox.showwarning("CPF Inválido")
+        # Verificar se a placa existe em algum veículo cadastrado
+        if not any(veiculo.get_placa() == placa for veiculo in self.veiculos):
+            messagebox.showwarning("Placa não encontrada", "Cadastre primeiro o veículo com essa placa.")
+            return
+
+        #Validar cpf
+        cpf_limpo = re.sub(r'\D', '', cpf)
+        validar = Proprietario(nome, cpf_limpo, [placa])
+        cpf_validar = validar.validar_cpf()
+        
+        if cpf_validar is True:
+            messagebox.showinfo("CPF salvo com sucesso")
+        else:
+            messagebox.showwarning("CPF Inválido", "Digite o CPF corretamente")
             return
 
         #Validar placa e adicionar veiculo
-        placa_valida = proprietario.validar_placa(placa)
+        placa_valida = validar.validar_placa(placa)
 
-        if placa_valida is True:
+        if placa_valida:
             messagebox.showinfo("Sucesso", "Proprietário salvo com sucesso!")
-            print(proprietario.get_nome(), proprietario.get_cpf(), proprietario.get_placas())
-        elif placa_valida is False:
-            messagebox.showwarning("Placa repetida", "Este veículo já foi adicionado.")
+            validar.adicionar_veiculo(placa)
+            print(validar.get_nome(), validar.get_cpf(), validar.get_placas())
         else:
             messagebox.showwarning("Placa inválida", "A placa deve seguir o padrão ABC1234 ou ABC1D23.")
 
 
-    
     def salvar_veiculo(self):
         # Obter dados comuns
         placa = self.placa_entry.get().strip().upper()
