@@ -213,26 +213,39 @@ class SistemaVeiculos:
         # Titulo
         titulo = tk.Label(self.listar_proprietario, text="PROPRIETÁRIOS CADASTRADOS", font=("Arial", 16, "bold"))
         titulo.pack(pady=20)
-
-        # Frame
+        
+        # Frame para filtro
         filtro_frame = tk.Frame(self.listar_proprietario)
         filtro_frame.pack(fill="x", padx=20, pady=5)
-
-        tk.Label(filtro_frame, text="Digite:").pack(side="left")
-        self.pesquisa = tk.Entry(filtro_frame, width=20)
-
-        tk.Label(filtro_frame, text="Filtrar por tipo:").pack(side="left")
+        tk.Label(filtro_frame, text="Filtrar por:").pack(side="left")
         self.filtro_var = tk.StringVar(value="Todos")
-        filtro_combo = ttk.Combobox(filtro_frame, textvariable=self.filtro_var, 
+        filtro_combo = ttk.Combobox(filtro_frame, textvariable=self.filtro_var,
                                   values=["Todos", "Nome", "CPF"], width=15)
         filtro_combo.pack(side="left", padx=5)
-        
-        filtro_btn = tk.Button(filtro_frame, text="Filtrar", command=self.filtrar_veiculos)
+        filtro_btn = tk.Button(filtro_frame, text="Filtrar", command=self.filtrar_proprietario)
         filtro_btn.pack(side="left", padx=5)
+        # Frame para a lista
+        lista_frame = tk.Frame(self.listar_proprietario, padx=20)
+        lista_frame.pack(fill="both", expand=True, pady=10)
+        # Scrollbar
+        scrollbar = tk.Scrollbar(lista_frame)
+        scrollbar.pack(side="right", fill="y")
+        # Listbox
+        self.listbox = tk.Listbox(lista_frame, width=70, height=10, font=("Arial", 10))
+        self.listbox.pack(side="left", fill="both", expand=True)
+        # Configura scrollbar
+        self.listbox.config(yscrollcommand=scrollbar.set)
+        scrollbar.config(command=self.listbox.yview)
+        # Botões
+        botoes_frame = tk.Frame(self.listar_proprietario)
+        botoes_frame.pack(pady=15)
+        tk.Button(botoes_frame, text="Ver Detalhes", width=12,
+                command=self.ver_detalhes).pack(side="left", padx=5)
+        tk.Button(botoes_frame, text="Voltar", width=12,
+                command=lambda: self.mostrar_tela(self.tela_principal)).pack(side="left", padx=5)
 
         
 
-    
     def configurar_tela_listagem(self):
         # Título
         titulo = tk.Label(self.tela_listagem, text="VEÍCULOS CADASTRADOS", font=("Arial", 16, "bold"))
@@ -432,6 +445,22 @@ class SistemaVeiculos:
                 self.listbox.insert("end", str(veiculo))
             elif filtro == "Caminhão" and isinstance(veiculo, Caminhao):
                 self.listbox.insert("end", str(veiculo))
+
+    def filtrar_proprietario(self):
+        # Limpar a lista
+        self.listbox.delete(0, "end")
+        
+        # Filtrar proprietários pelo tipo
+        filtro = self.filtro_var.get()
+        
+        for proprietario in self.proprietarios:
+            if filtro == "Todos":
+                self.listbox.insert("end", str(proprietario))
+            elif filtro == "Nome" and proprietario.get_nome():
+                self.listbox.insert("end", str(proprietario.get_nome()))
+            elif filtro == "CPF" and proprietario.get_cpf():
+                self.listbox.insert("end", str(proprietario.get_cpf()))
+
     
     def ver_detalhes(self):
         # Obter o índice selecionado
