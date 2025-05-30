@@ -218,7 +218,19 @@ class SistemaVeiculos:
         filtro_frame = tk.Frame(self.listar_proprietario)
         filtro_frame.pack(fill="x", padx=20, pady=5)
 
-        tk.Label(filtro_frame, text="Filtrar por tipo:")
+        tk.Label(filtro_frame, text="Digite:").pack(side="left")
+        self.pesquisa = tk.Entry(filtro_frame, width=20)
+
+        tk.Label(filtro_frame, text="Filtrar por tipo:").pack(side="left")
+        self.filtro_var = tk.StringVar(value="Todos")
+        filtro_combo = ttk.Combobox(filtro_frame, textvariable=self.filtro_var, 
+                                  values=["Todos", "Nome", "CPF"], width=15)
+        filtro_combo.pack(side="left", padx=5)
+        
+        filtro_btn = tk.Button(filtro_frame, text="Filtrar", command=self.filtrar_veiculos)
+        filtro_btn.pack(side="left", padx=5)
+
+        
 
     
     def configurar_tela_listagem(self):
@@ -282,16 +294,12 @@ class SistemaVeiculos:
             return
 
         #Validar cpf
-        cpf_limpo = re.sub(r'\D', '', cpf)
-        validar = Proprietario(nome, cpf_limpo, [placa])
-        cpf_validar = validar.validar_cpf()
-        
-        if cpf_validar is True:
-            messagebox.showinfo("CPF salvo com sucesso")
-        else:
-            messagebox.showwarning("CPF Inválido", "Digite o CPF corretamente")
+        if not re.match(r'^\d{3}\.\d{3}\.\d{3}-\d{2}$', cpf):
+            messagebox.showwarning("CPF inválido", "O CPF deve ser digitado corretamente")
             return
 
+        validar = Proprietario(nome, cpf, [placa])
+        
         #Validar placa e adicionar veiculo
         placa_valida = validar.validar_placa(placa)
 
@@ -301,6 +309,14 @@ class SistemaVeiculos:
             print(validar.get_nome(), validar.get_cpf(), validar.get_placas())
         else:
             messagebox.showwarning("Placa inválida", "A placa deve seguir o padrão ABC1234 ou ABC1D23.")
+
+        # Limpar campos
+        self.nome_entry.delete(0, "end")
+        self.cpf_entry.delete(0, "end")
+        self.placa_proprietario_entry.delete(0, "end")
+        
+        # Voltar para a tela principal
+        self.mostrar_tela(self.tela_principal)
 
 
     def salvar_veiculo(self):
@@ -399,6 +415,7 @@ class SistemaVeiculos:
         self.filtrar_veiculos()
         self.mostrar_tela(self.tela_listagem)
     
+
     def filtrar_veiculos(self):
         # Limpar a lista
         self.listbox.delete(0, "end")

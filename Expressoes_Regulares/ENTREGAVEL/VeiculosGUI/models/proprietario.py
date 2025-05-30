@@ -18,19 +18,7 @@ class Proprietario:
     
     def get_placas(self):
         return self.__placas
-
-    #Validar CPF and PLACA
-    def validar_cpf(self, cpf):
-        padrao_formatado = r'^\d{3}\.\d{3}\.\d{3}-\d{2}$'
-        if not re.match(padrao_formatado, cpf):
-            return False
-        cpf = re.sub(r'[^0-9]', '', cpf)
-        if len(cpf) != 11:
-            return False
-        if cpf == cpf[0] * 11:
-            return False
-        return True
-            
+  
 
     def validar_placa(self, placa):
         if re.match(r'^[A-Z]{3}[0-9][0-9A-Z][0-9]{2}$', placa):
