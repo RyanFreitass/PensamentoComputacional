@@ -19,8 +19,8 @@ class SistemaVeiculos:
         # Lista para armazenar os veículos cadastrados
         self.veiculos = []
 
-        '''#Lista para armazenar os proprietarios
-        self.proprietarios = []'''
+        #Lista para armazenar os proprietarios
+        self.proprietarios = []
         
         # Configura o container para as telas
         self.container = tk.Frame(root)
@@ -210,17 +210,16 @@ class SistemaVeiculos:
 
 
     def configurar_tela_listar_proprietario(self):
-        # Titulo
+        # Título
         titulo = tk.Label(self.listar_proprietario, text="PROPRIETÁRIOS CADASTRADOS", font=("Arial", 16, "bold"))
         titulo.pack(pady=20)
-        
         # Frame para filtro
         filtro_frame = tk.Frame(self.listar_proprietario)
         filtro_frame.pack(fill="x", padx=20, pady=5)
-        tk.Label(filtro_frame, text="Filtrar por:").pack(side="left")
-        self.filtro_var = tk.StringVar(value="Todos")
-        filtro_combo = ttk.Combobox(filtro_frame, textvariable=self.filtro_var,
-                                  values=["Todos", "Nome", "CPF"], width=15)
+        tk.Label(filtro_frame, text="Filtrar por nome:").pack(side="left")
+        self.filtro_var_proprietario = tk.StringVar(value="Todos")
+        filtro_combo = ttk.Combobox(filtro_frame, textvariable=self.filtro_var_proprietario,
+                                    values=["Todos"], width=15)
         filtro_combo.pack(side="left", padx=5)
         filtro_btn = tk.Button(filtro_frame, text="Filtrar", command=self.filtrar_proprietario)
         filtro_btn.pack(side="left", padx=5)
@@ -233,14 +232,14 @@ class SistemaVeiculos:
         # Listbox
         self.listbox = tk.Listbox(lista_frame, width=70, height=10, font=("Arial", 10))
         self.listbox.pack(side="left", fill="both", expand=True)
-        # Configura scrollbar
+        # Configura scrollbar	
         self.listbox.config(yscrollcommand=scrollbar.set)
         scrollbar.config(command=self.listbox.yview)
         # Botões
         botoes_frame = tk.Frame(self.listar_proprietario)
         botoes_frame.pack(pady=15)
         tk.Button(botoes_frame, text="Ver Detalhes", width=12,
-                command=self.ver_detalhes).pack(side="left", padx=5)
+                command=self.ver_detalhes_proprietario).pack(side="left", padx=5)
         tk.Button(botoes_frame, text="Voltar", width=12,
                 command=lambda: self.mostrar_tela(self.tela_principal)).pack(side="left", padx=5)
 
@@ -296,7 +295,7 @@ class SistemaVeiculos:
         cpf = self.cpf_entry.get().strip()
         placa = self.placa_proprietario_entry.get().strip().upper()
 
-        #campos obrigatorios
+        # Campos obrigatórios
         if not nome or not cpf or not placa:
             messagebox.showwarning("Dados incompletos", "Preencha todos os campos obrigatórios!")
             return
@@ -306,30 +305,44 @@ class SistemaVeiculos:
             messagebox.showwarning("Placa não encontrada", "Cadastre primeiro o veículo com essa placa.")
             return
 
-        #Validar cpf
+        # Validar CPF
         if not re.match(r'^\d{3}\.\d{3}\.\d{3}-\d{2}$', cpf):
             messagebox.showwarning("CPF inválido", "O CPF deve ser digitado corretamente")
             return
 
-        validar = Proprietario(nome, cpf, [placa])
-        
-        #Validar placa e adicionar veiculo
+        validar = Proprietario(nome, cpf, [])
+
+        # Validar placa
         placa_valida = validar.validar_placa(placa)
 
-        if placa_valida:
-            messagebox.showinfo("Sucesso", "Proprietário salvo com sucesso!")
-            validar.adicionar_veiculo(placa)
-            print(validar.get_nome(), validar.get_cpf(), validar.get_placas())
-        else:
+        if placa_valida is None:
             messagebox.showwarning("Placa inválida", "A placa deve seguir o padrão ABC1234 ou ABC1D23.")
+            return
 
-        # Limpar campos
-        self.nome_entry.delete(0, "end")
-        self.cpf_entry.delete(0, "end")
-        self.placa_proprietario_entry.delete(0, "end")
-        
-        # Voltar para a tela principal
-        self.mostrar_tela(self.tela_principal)
+        if placa_valida:
+            novo_proprietario = Proprietario(nome, cpf, [placa])
+            self.proprietarios.append(novo_proprietario)
+            messagebox.showinfo("Sucesso", "Proprietário salvo com sucesso!")
+            print(novo_proprietario.get_nome(), novo_proprietario.get_cpf(), novo_proprietario.get_placas())
+
+            # Limpar campos
+            self.nome_entry.delete(0, "end")
+            self.cpf_entry.delete(0, "end")
+            self.placa_proprietario_entry.delete(0, "end")
+
+            # Atualizar listagem (exemplo)
+            self.atualizar_lista_proprietarios()
+
+            # Voltar para tela principal
+            self.mostrar_tela(self.tela_principal)
+
+
+    
+    def atualizar_lista_proprietarios(self):
+        self.listbox.delete(0, 'end')
+        for p in self.proprietarios:
+            self.listbox.insert('end', str(p))
+
 
 
     def salvar_veiculo(self):
@@ -449,17 +462,32 @@ class SistemaVeiculos:
     def filtrar_proprietario(self):
         # Limpar a lista
         self.listbox.delete(0, "end")
-        
-        # Filtrar proprietários pelo tipo
-        filtro = self.filtro_var.get()
-        
+
+        filtro = self.filtro_var_proprietario.get().strip().lower()
+
         for proprietario in self.proprietarios:
-            if filtro == "Todos":
+            nome = proprietario._Proprietario__nome.lower()
+            if filtro == "todos" or filtro == "" or filtro in nome:
                 self.listbox.insert("end", str(proprietario))
-            elif filtro == "Nome" and proprietario.get_nome():
-                self.listbox.insert("end", str(proprietario.get_nome()))
-            elif filtro == "CPF" and proprietario.get_cpf():
-                self.listbox.insert("end", str(proprietario.get_cpf()))
+
+
+    def ver_detalhes_proprietario(self):
+        # Obter o índice selecionado
+        selecionado = self.listbox.curselection()
+        if not selecionado:
+            messagebox.showinfo("Aviso", "Selecione um proprietário para ver os detalhes")
+            return
+        
+        # Obter o proprietário correspondente à seleção
+        proprietario = self.proprietarios[selecionado[0]]
+        
+        # Montar a mensagem de detalhes
+        detalhes = str(proprietario)
+        
+        # Mostrar detalhes
+        messagebox.showinfo("Detalhes do Proprietário", detalhes)
+
+        
 
     
     def ver_detalhes(self):

@@ -40,3 +40,6 @@ class Proprietario:
 
     def excluir_veiculo(self):
         pass
+
+    def __str__(self):
+        return f"Proprietário: {self.__nome}, CPF: {self.__cpf}, Veículos: {', '.join(self.__placas) if self.__placas else 'Nenhum'}"
