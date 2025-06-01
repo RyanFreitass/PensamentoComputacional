@@ -18,14 +18,6 @@ class Proprietario:
     
     def get_placas(self):
         return self.__placas
-  
-
-    def validar_placa(self, placa):
-        if re.match(r'^[A-Z]{3}[0-9][0-9A-Z][0-9]{2}$', placa):
-            return True
-        else:
-            return False
-
 
     def adicionar_veiculo(self, placa):
         placa = placa.upper()
