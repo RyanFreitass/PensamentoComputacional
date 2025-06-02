@@ -6,7 +6,7 @@ class Proprietario:
     def __init__(self, nome, cpf, placas):
         self.__nome = nome
         self.__cpf = cpf
-        self.__placas = []
+        self.__placas = list(placas)
     
 
     #CRIAR PROPRIETARIO
@@ -29,9 +29,6 @@ class Proprietario:
                 return False  
         else:
             return None
-
-    def excluir_veiculo(self):
-        pass
 
     def __str__(self):
         return f"Proprietário: {self.__nome}, CPF: {self.__cpf}, Veículos: {', '.join(self.__placas) if self.__placas else 'Nenhum'}"

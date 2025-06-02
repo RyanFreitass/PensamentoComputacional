@@ -71,7 +71,7 @@ class SistemaVeiculos:
         btn_cadastrar.pack(pady=10)
         
         btn_listar = tk.Button(frame, text="Listar Veículos", width=25, height=2,
-                              command=lambda: self.atualizar_listagem())
+                              command=lambda: self.mostrar_tela(self.tela_listagem))
         btn_listar.pack(pady=10)
 
         btn_cadastrar_proprietario = tk.Button(frame, text="Cadastrar Proprietario", width=25, height=2,
@@ -280,11 +280,11 @@ class SistemaVeiculos:
         scrollbar = tk.Scrollbar(lista_frame)
         scrollbar.pack(side="right", fill="y")
         # Listbox
-        self.listbox = tk.Listbox(lista_frame, width=70, height=10, font=("Arial", 10))
-        self.listbox.pack(side="left", fill="both", expand=True)
+        self.listbox_proprietario = tk.Listbox(lista_frame, width=70, height=10, font=("Arial", 10))
+        self.listbox_proprietario.pack(side="left", fill="both", expand=True)
         # Configura scrollbar
-        self.listbox.config(yscrollcommand=scrollbar.set)
-        scrollbar.config(command=self.listbox.yview)
+        self.listbox_proprietario.config(yscrollcommand=scrollbar.set)
+        scrollbar.config(command=self.listbox_proprietario.yview)
         # Botões
         botoes_frame = tk.Frame(self.listar_proprietario)
         botoes_frame.pack(pady=15)
@@ -324,6 +324,7 @@ class SistemaVeiculos:
             messagebox.showwarning("Placa inválida", "A placa deve seguir o padrão ABC1234 ou ABC1D23")
             return
         
+        
         # Criar o proprietário
         proprietario = Proprietario(nome, cpf, [placa])
         # Adicionar o proprietário à lista
@@ -343,10 +344,16 @@ class SistemaVeiculos:
         self.filtro_combo['values'] = ["Todos"] + [p.get_nome() for p in self.proprietarios]
         self.filtro_var_proprietario.set("Todos")
         # Limpar a listbox
-        self.listbox.delete(0, "end")
-        # Adicionar os proprietários à listbox
+        self.listbox_proprietario.delete(0, "end")
         for proprietario in self.proprietarios:
-            self.listbox.insert("end", str(proprietario))
+            self.listbox_proprietario.insert("end", str(proprietario))
+
+
+    def atualizar_listagem_veiculos(self):
+        self.listbox.delete(0, "end")
+        for veiculo in self.veiculos:
+            self.listbox.insert("end", str(veiculo))
+
 
     def salvar_veiculo(self):
         # Obter dados comuns
@@ -472,7 +479,7 @@ class SistemaVeiculos:
 
     def ver_detalhes_proprietario(self):
         # Obter o índice selecionado
-        selecionado = self.listbox.curselection()
+        selecionado = self.listbox_proprietario.curselection()
         if not selecionado:
             messagebox.showinfo("Aviso", "Selecione um proprietário para ver os detalhes")
             return
