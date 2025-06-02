@@ -489,6 +489,15 @@ class SistemaVeiculos:
         
         # Montar a mensagem de detalhes
         detalhes = str(proprietario)
+
+        for veiculo in self.veiculos:
+            if proprietario.get_placas()[0] == veiculo.get_placa():
+                if isinstance(veiculo, Carro):
+                    detalhes += '\n\nTipo: Carro'
+                elif isinstance(veiculo, Moto):
+                    detalhes += '\n\nTipo: Moto'
+                elif isinstance(veiculo, Caminhao):
+                    detalhes += '\n\nTipo: Caminhão'
         
         # Mostrar detalhes
         messagebox.showinfo("Detalhes do Proprietário", detalhes)
