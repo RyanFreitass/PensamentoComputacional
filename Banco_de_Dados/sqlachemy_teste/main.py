@@ -54,10 +54,10 @@ session.commit()'''
 
 # R -- READ
 '''lista_usuarios = session.query(Usuario).all()'''
-usuario_ryan = session.query(Usuario).filter_by(email="ryanfreitas@gmail.com").first()
+'''usuario_ryan = session.query(Usuario).filter_by(email="ryanfreitas@gmail.com").first()
 print(usuario_ryan)
 print(usuario_ryan.nome)
-print(usuario_ryan.email)
+print(usuario_ryan.email)'''
 '''livro = Livro(titulo="Harry Potter", qtde_paginas=210, dono=usuario_ryan.id)
 session.add(livro)
 session.commit()'''
@@ -69,6 +69,6 @@ session.add(usuario_ryan)
 session.commit()'''
 
 
-# D -- DELETE
+'''# D -- DELETE
 session.delete(usuario_ryan)
-session.commit()
+session.commit()'''
