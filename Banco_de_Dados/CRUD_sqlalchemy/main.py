@@ -3,7 +3,6 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from models.models import Usuario, Base
 
-
 # Conectar ao banco
 engine = create_engine('sqlite:///database.db')
 Base.metadata.create_all(engine)
